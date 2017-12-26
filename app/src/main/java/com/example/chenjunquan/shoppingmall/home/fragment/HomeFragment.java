@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.chenjunquan.shoppingmall.R;
 import com.example.chenjunquan.shoppingmall.base.BaseFragment;
+import com.example.chenjunquan.shoppingmall.home.bean.ResultBeanData;
 import com.example.chenjunquan.shoppingmall.utils.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -30,6 +32,7 @@ public class HomeFragment extends BaseFragment {
     private ImageView ib_top;
     private TextView tv_search_home;
     private TextView tv_message_home;
+    private ResultBeanData.ResultBean resultBean;
 
     @Override
     public View initView() {
@@ -41,13 +44,14 @@ public class HomeFragment extends BaseFragment {
         tv_search_home = (TextView) view.findViewById(R.id.tv_search_home);
         tv_message_home = (TextView)view.findViewById(R.id.tv_message_home);
         return view;
+
     }
 
     @Override
     public void initData() {
         super.initData();
         ib_top.setVisibility(View.VISIBLE);
-
+        initListener();
         getDataFromNet();
     }
 
@@ -67,9 +71,18 @@ public class HomeFragment extends BaseFragment {
                     //请求成功的数据
                     @Override
                     public void onResponse(String response, int id) {
+
                         Log.i("response",response);
+                        processData(response);
                     }
                 });
+    }
+
+    private void processData(String json) {
+        ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
+        resultBean = resultBeanData.getResult();
+        //Log.i("re---------------",resultBean.getHot_info().get(0).getName());
+
     }
 
     private void initListener() {
