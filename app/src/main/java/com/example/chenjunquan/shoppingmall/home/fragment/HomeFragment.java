@@ -1,8 +1,8 @@
 package com.example.chenjunquan.shoppingmall.home.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,12 +11,11 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.example.chenjunquan.shoppingmall.R;
 import com.example.chenjunquan.shoppingmall.base.BaseFragment;
+import com.example.chenjunquan.shoppingmall.home.adapter.HomeFragmentAdapter;
 import com.example.chenjunquan.shoppingmall.home.bean.ResultBeanData;
 import com.example.chenjunquan.shoppingmall.utils.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.w3c.dom.Text;
 
 import okhttp3.Call;
 
@@ -33,6 +32,7 @@ public class HomeFragment extends BaseFragment {
     private TextView tv_search_home;
     private TextView tv_message_home;
     private ResultBeanData.ResultBean resultBean;
+    private HomeFragmentAdapter adapter;
 
     @Override
     public View initView() {
@@ -42,7 +42,7 @@ public class HomeFragment extends BaseFragment {
         rvHome = (RecyclerView) view.findViewById(R.id.rv_home);
         ib_top = (ImageView) view.findViewById(R.id.ib_top);
         tv_search_home = (TextView) view.findViewById(R.id.tv_search_home);
-        tv_message_home = (TextView)view.findViewById(R.id.tv_message_home);
+        tv_message_home = (TextView) view.findViewById(R.id.tv_message_home);
         return view;
 
     }
@@ -61,18 +61,18 @@ public class HomeFragment extends BaseFragment {
                 .get()
                 .url(url)
                 .build()
-                .execute(new StringCallback()
-                {
+                .execute(new StringCallback() {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.i("response",e.getMessage());
+                        Log.i("response", e.getMessage());
                     }
+
                     //请求成功的数据
                     @Override
                     public void onResponse(String response, int id) {
 
-                        Log.i("response",response);
+                        //Log.i("response", response);
                         processData(response);
                     }
                 });
@@ -81,6 +81,15 @@ public class HomeFragment extends BaseFragment {
     private void processData(String json) {
         ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
         resultBean = resultBeanData.getResult();
+        if (resultBean != null) {
+            adapter = new HomeFragmentAdapter(mContext, resultBean);
+            //设置布局
+            rvHome.setLayoutManager(new GridLayoutManager(mContext, 1));
+            rvHome.setAdapter(adapter);
+
+        } else {
+
+        }
         //Log.i("re---------------",resultBean.getHot_info().get(0).getName());
 
     }
