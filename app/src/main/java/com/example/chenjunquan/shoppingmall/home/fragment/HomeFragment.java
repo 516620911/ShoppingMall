@@ -83,9 +83,25 @@ public class HomeFragment extends BaseFragment {
         resultBean = resultBeanData.getResult();
         if (resultBean != null) {
             adapter = new HomeFragmentAdapter(mContext, resultBean);
-            //设置布局
-            rvHome.setLayoutManager(new GridLayoutManager(mContext, 1));
             rvHome.setAdapter(adapter);
+            //设置布局
+            GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+            //监听跨度大小监听
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if(position<=3) {
+                        //隐藏
+                        ib_top.setVisibility(View.INVISIBLE);
+                    }else{
+                        ib_top.setVisibility(View.VISIBLE);
+                        //显示
+                    }
+                    return 1;
+                }
+            });
+            rvHome.setLayoutManager(manager);
+
 
         } else {
 

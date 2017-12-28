@@ -51,10 +51,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.atguigu.shoppingmall.home.view.ScrollViewContainer
+            <com.example.chenjunquan.shoppingmall.view.ScrollViewContainer
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
+                <!--scrollbars侧边条-->
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -188,7 +188,7 @@
 
                 </ScrollView>
 
-            </com.atguigu.shoppingmall.home.view.ScrollViewContainer>
+            </com.example.chenjunquan.shoppingmall.view.ScrollViewContainer>
         </LinearLayout>
 
         <LinearLayout

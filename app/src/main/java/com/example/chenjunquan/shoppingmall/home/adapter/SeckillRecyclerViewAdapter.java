@@ -36,6 +36,15 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
             iv_figure=itemView.findViewById(R.id.iv_figure);
             tv_cover_price=itemView.findViewById(R.id.tv_cover_price);
             tv_origin_price=itemView.findViewById(R.id.tv_origin_price);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(mListener!=null) {
+                        mListener.OnItemClick(getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 
@@ -58,6 +67,16 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
 
     @Override
     public int getItemCount() {
+
         return mListBeans.size();
+    }
+
+    public void setListener(OnSeckillRecyclerViewListener listener) {
+        mListener = listener;
+    }
+
+    private OnSeckillRecyclerViewListener mListener;
+    public interface OnSeckillRecyclerViewListener{
+        void OnItemClick(int postion);
     }
 }
